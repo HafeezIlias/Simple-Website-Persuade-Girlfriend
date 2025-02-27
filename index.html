@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Girlfriend Persuade Website</title>
+  <link rel="icon" type="image/x-icon" href="heart.png">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f6d365, #fda085);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 600px;
+      margin: 20px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .message {
+      font-size: 1.8em;
+      margin: 20px 0;
+      min-height: 3em;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
+    .button {
+      padding: 15px 30px;
+      margin: 10px;
+      font-size: 1.2em;
+      color: #fff;
+      background-color: #ff6f91;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+    .button:hover {
+      background-color: #ff3f6a;
+    }
+    /* Big Love Burst Animation for "tak dah" branch */
+    .love-burst {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      font-size: 5em;
+      opacity: 0;
+      pointer-events: none;
+      animation: burst 2s forwards;
+      z-index: 20;
+    }
+    @keyframes burst {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 1;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0;
+      }
+    }
+    /* Raining Picture Style */
+    .rain-pic {
+      position: fixed;
+      top: -100px;
+      pointer-events: none;
+      z-index: 5;
+      animation: fallPic linear forwards;
+    }
+    @keyframes fallPic {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    /* Love Raining Hearts */
+    .heart {
+      position: fixed;
+      top: -50px;
+      font-size: 24px;
+      color: #ff3b58;
+      user-select: none;
+      pointer-events: none;
+      animation: fall linear forwards;
+    }
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Music -->
+  <audio id="bg-music" src="Lagu10cm.mp3" autoplay loop></audio>
+  
+  <div class="container" id="mainContainer">
+    <div class="message" id="message">Awak merajuk lagi ke?</div>
+    <div class="buttons" id="buttonContainer">
+      <button class="button" id="continueButton">majuk lagi</button>
+      <button class="button" id="stopButton">tak dah</button>
+    </div>
+  </div>
+  <script>
+    // Ensure background music plays on user interaction if autoplay is blocked.
+    document.addEventListener('DOMContentLoaded', function() {
+      const audio = document.getElementById('bg-music');
+      document.getElementById("continueButton").addEventListener("click", function() {
+        if (audio.paused) {
+          audio.play().catch(e => console.log("Auto-play prevented:", e));
+        }
+      });
+      document.getElementById("stopButton").addEventListener("click", function() {
+        if (audio.paused) {
+          audio.play().catch(e => console.log("Auto-play prevented:", e));
+        }
+      });
+    });
+
+    // Message sequence for the "majuk lagi" branch
+    const messages = [
+      "Alaaaaa jgan la merajuk",
+      "Pleasssseeeeeeeeee",
+      "Wahai seketul kecomelan, jgn la majukk ;(",
+      "Berani ke tekan majuk lagi ;(",
+      "Tengok tu tekan lagi"
+    ];
+    
+    let currentStep = 0;
+    let growthMode = false;    // Flag for when the sequence is finished
+    let growthScale = 1;       // Starting scale for the button in growth mode
+
+    const messageDiv = document.getElementById("message");
+    const continueButton = document.getElementById("continueButton");
+    const stopButton = document.getElementById("stopButton");
+
+    function updateMessage() {
+      if (currentStep < messages.length) {
+        messageDiv.textContent = messages[currentStep];
+      }
+    }
+
+    // Function that triggers the "no" branch (used by both stopButton and grown continueButton)
+    function triggerNoBranch() {
+      messageDiv.textContent = "Yeayyyyyyy, sorry tauu jgn merajuk da ;)";
+      const loveBurst = document.createElement("div");
+      loveBurst.className = "love-burst";
+      loveBurst.textContent = "❤️";
+      document.body.appendChild(loveBurst);
+
+      const buttonContainer = document.getElementById("buttonContainer");
+      buttonContainer.innerHTML = "";
+      const nextNoButton = document.createElement("button");
+      nextNoButton.className = "button";
+      nextNoButton.textContent = "tekan ni";
+      buttonContainer.appendChild(nextNoButton);
+
+      let noButtonClickedOnce = false;
+      nextNoButton.addEventListener("click", function() {
+        if (!noButtonClickedOnce) {
+          messageDiv.textContent = "nk hadiah dari sabah tak? kalau nak haaa kena buat apa??";
+          nextNoButton.textContent = "Jangan Majuk da tau ;(";
+          noButtonClickedOnce = true;
+        } else {
+          const phoneNumber = "+xxxxxxxxxxxx"; // Replace with your WhatsApp number
+          const preFilledMessage = encodeURIComponent("Ha nak cakap apa?"); // replace what message 
+          window.location.href = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${preFilledMessage}`;
+        }
+      });
+    }
+
+    // "majuk lagi" (continue) button event listener
+    continueButton.addEventListener("click", function() {
+      if (currentStep < messages.length - 1) {
+        currentStep++;
+        updateMessage();
+      } else {
+        if (!growthMode) {
+          growthMode = true;
+        }
+        growthScale += 0.3;
+        continueButton.style.transform = `scale(${growthScale})`;
+
+        if (growthScale >= 3 && continueButton.textContent !== "tak majuk") {
+          continueButton.textContent = "tak majuk";
+        }
+        if (growthScale >= 3.5) {
+          triggerNoBranch();
+        }
+      }
+    });
+
+    // "tak dah" (stop) button event listener – triggers the no branch immediately.
+    stopButton.addEventListener("click", function() {
+      triggerNoBranch();
+    });
+
+    // Array of image URLs for falling pictures
+    const rainImages = [
+      "1.jpg",
+      "5.jpg",
+      "4.jpg"
+    ];
+
+    function createRainPicture() {
+      const rainPic = document.createElement("img");
+      rainPic.className = "rain-pic";
+      const randomImage = rainImages[Math.floor(Math.random() * rainImages.length)];
+      rainPic.src = randomImage;
+      rainPic.style.left = Math.random() * 100 + "vw";
+      const size = 70 + Math.random() * 40;
+      rainPic.style.width = size + "px";
+      const duration = 1 + Math.random() * 3;
+      rainPic.style.animationDuration = duration + "s";
+      
+      document.body.appendChild(rainPic);
+      setTimeout(() => {
+        rainPic.remove();
+      }, duration * 1000);
+    }
+
+    setInterval(createRainPicture, 800);
+    
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerText = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      const duration = 3 + Math.random() * 4;
+      heart.style.animationDuration = duration + "s";
+      heart.style.fontSize = 16 + Math.random() * 16 + "px";
+
+      document.body.appendChild(heart);
+      setTimeout(() => {
+        heart.remove();
+      }, duration * 1000);
+    }
+
+    setInterval(createHeart, 300);
+  </script>
+</body>
+</html>
